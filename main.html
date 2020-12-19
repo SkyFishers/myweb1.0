@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生产调度不正常事件辅助平台</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css" charset="utf-8">
+    <script src="js/2.1.4/jquery.min.js"></script>
+    <!--时间选择器-->
+    <link type="text/css" href="css/jquery-ui-1.8.17.custom.css" rel="stylesheet" />
+    <link type="text/css" href="css/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-timepicker-zh-CN.js"></script>
+    <!--/时间选择器-->
+
+</head>
+
+<body>
+    <audio id="audio" src="static/jingbao.mp3" loop="loop"></audio>
+    <div>
+        <div class="top">
+            <img src="img/logo.png" alt="中国南方航空">
+            <span>生产调度不正常事件辅助平台</span>
+        </div>
+        <div id="main">
+            <div class="middle">
+                <div class="middle2">
+                    <div>
+                        <input type="checkbox" name="first" id="first">
+                        <label for="first">不影响航班/MEL</label>
+
+                    </div>
+                    <div>
+                        <input type="checkbox" name="second" id="second">
+                        <label for="second">影响航班正常性</label>
+
+                    </div>
+                    <div>
+                        <input type="checkbox" name="third" id="third">
+                        <label for="third">安全信息</label>
+
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button id="start" class="start">启动</button>
+            </div>
+        </div>
+
+        <!-- 页面 -->
+        <!-- 100模式 -->
+
+        <div class="box" id="m100_1">
+            <h1>初报-不影响航班/MEL</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>广州MCC</span>
+            </div>
+            <div class="btns">
+                <!-- <button onclick="m100_getnext(i)">上一步</button> -->
+                <button onclick="m100_getnext('m100_2')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m100_2">
+            <h1>初报-不影响航班/MEL</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>上海GOC各驻场席位</span>
+            </div>
+            <div class="btns">
+                <button onclick="m100_getnext('m100_1')">上一步</button>
+                <button onclick="m100_getnext('m100_3')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m100_3">
+            <h1>初报-不影响航班/MEL</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>执管单位</span>
+            </div>
+            <div class="btns">
+                <button onclick="m100_getnext('m100_2')">上一步</button>
+                <button onclick="m100_getnext('m100_4')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m100_4">
+            <h1>初报-不影响航班/MEL</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>当日后续航站</span>
+            </div>
+            <div class="btns">
+                <button onclick="m100_getnext('m100_3')">上一步</button>
+                <button onclick="m100_getnext('m100_5')">下一步</button>
+            </div>
+        </div>
+
+        <div class="box" id="m100_5">
+            <h1>初报-不影响航班/MEL</h1>
+            <p>
+                请填写初报：
+            </p>
+            <div class="dep">
+                <textarea name="m100_1" id="m100_1" form="m100" cols="30" rows="10" required="required"
+                    oninput="report('side_m100_1',m100.m100_1.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m100_getnext('m100_4')">上一步</button>
+                <button onclick="m100_getnext('m100_6')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m100_6">
+            <h1>结报-不影响航班/MEL</h1>
+            <p>
+                请填写结报：
+            </p>
+            <div class="dep">
+                <textarea name="m100_2" form="m100" cols="30" rows="10" required="required"
+                    oninput="report('side_m100_2',m100.m100_2.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m100_getnext('m100_5')">上一步</button>
+                <button onclick="m100_end()">结 束</button>
+            </div>
+        </div>
+        <form id="m100" name="m100"></form>
+
+
+
+
+
+
+        <!-- 001模式界面 -->
+        <div class="box" id="m001_1">
+            <h1>初报-安全信息</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>通报SOC</span>
+            </div>
+            <div class="btns">
+                <!-- <button onclick="m100_getnext(i)">上一步</button> -->
+                <button onclick="m001_getnext('m001_2')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m001_2">
+            <h1>初报-安全信息</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>申请机场取证</span>
+            </div>
+            <div class="btns">
+                <button onclick="m001_getnext('m001_1')">上一步</button>
+                <button onclick="m001_getnext('m001_3')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m001_3">
+            <h1>初报-安全信息</h1>
+            <p>
+                请填写初报：
+            </p>
+            <div class="dep">
+                <textarea name="m001_1" form="m001" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m001_1',m001.m001_1.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m001_getnext('m001_2')">上一步</button>
+                <button onclick="m001_getnext('m001_4')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m001_4">
+            <h1>续报-安全信息</h1>
+            <p>
+                请填写续报：
+            </p>
+            <div class="dep">
+                <textarea name="m001_2" form="m001" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m001_2',m001.m001_2.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m001_getnext('m001_3')">上一步</button>
+                <button onclick="m001_getnext('m001_5')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m001_5">
+            <h1>结报-安全信息</h1>
+            <p>
+                请填写结报：
+            </p>
+            <div class="dep">
+                <textarea name="m001_3" form="m001" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m001_3',m001.m001_3.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m001_getnext('m001_4')">上一步</button>
+                <button onclick="m001_end()">结束</button>
+            </div>
+        </div>
+
+        <form id="m001"></form>
+
+
+
+        <!-- 010模式界面 -->
+        <div class="box" id="m010_1">
+            <h1>初报-影响航班正常性</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>厂值班</span>
+            </div>
+            <div id="audio_m010_1" class="btns">
+                <!-- <button onclick="m100_getnext(i)">上一步</button> -->
+                <button onclick="m010_getnext('m010_2')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_2">
+            <h1>初报-影响航班正常性</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>广州MCC</span>
+            </div>
+            <div id="audio_m010_2" class="btns">
+                <button onclick="m010_getnext('m010_1')">上一步</button>
+                <button onclick="m010_getnext('m010_3')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_3">
+            <h1>初报-影响航班正常性</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>上海GOC现场席位</span>
+            </div>
+            <div id="audio_m010_3" class="btns">
+                <button onclick="m010_getnext('m010_2')">上一步</button>
+                <button onclick="m010_getnext('m010_4')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_4">
+            <h1>初报-影响航班正常性</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>执管单位</span>
+            </div>
+            <div id="audio_m010_4" class="btns">
+                <button onclick="m010_getnext('m010_3')">上一步</button>
+                <button onclick="m010_getnext('m010_5',1)">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_5">
+            <h1>初报-影响航班正常性</h1>
+            <p>
+                请填写初报：
+            </p>
+            <div class="dep">
+                <textarea name="m010_1" form="m010" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m010_1',m010.m010_1.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m010_getnext('m010_3')">上一步</button>
+                <button onclick="m010_getnext('m010_6')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_6">
+            <h1>续报-影响航班正常性</h1>
+            <p>
+                <!-- 请即时通知 -->
+            </p>
+            <div class="dep">
+                <span>是否按照重要故障决策审批</span>
+            </div>
+            <div class="btns">
+                <button onclick="m010_getnext('m010_5')">上一步</button>
+                <button onclick="m010_getnext('m010_7')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_7">
+            <h1>续报-影响航班正常性</h1>
+            <p>
+                <!-- 请即时通知 -->
+            </p>
+            <div class="dep">
+                <span>延误超过两小时，通知厂长</span>
+            </div>
+            <div class="btns">
+                <button onclick="m010_getnext('m010_6')">上一步</button>
+                <button onclick="m010_getnext('m010_8')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_8">
+            <h1>续报-影响航班正常性</h1>
+            <div>
+                <!-- 请即时通知 -->
+                <span>设置航班正常COBT时间：</span>
+            </div>
+            <div class="dep">
+                <input id="flighttime" type="text" name="datetime" class="ui_timepicker" autocomplete="off">
+            </div>
+            <div class="btns">
+                <button onclick="m010_getnext('m010_7')">上一步</button>
+                <button onclick="m010_getnext('m010_9')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_9">
+            <h1>续报-影响航班正常性</h1>
+            <p>
+                请填写续报：
+            </p>
+            <span></span>
+            <div class="dep">
+                <textarea name="m010_2" form="m010" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m010_2',m010.m010_2.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m010_getnext('m010_8')">上一步</button>
+                <button onclick="m010_getnext('m010_10')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m010_10">
+            <h1>续报-影响航班正常性</h1>
+            <p>
+                请填写结报：
+            </p>
+            <span></span>
+            <div class="dep">
+                <textarea name="m010_3" form="m010" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m010_3',m010.m010_3.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m010_getnext('m010_9')">上一步</button>
+                <button onclick="m010_end()">结束</button>
+            </div>
+        </div>
+        <form id="m010"></form>
+
+
+        <!-- 101模式界面 -->
+        <div class="box" id="m101_1">
+            <h1>初报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>广州MCC</span>
+            </div>
+            <div class="btns">
+
+                <button onclick="m101_getnext('m101_2')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_2">
+            <h1>初报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>上海GOC各驻场席位</span>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_1')">上一步</button>
+                <button onclick="m101_getnext('m101_3')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_3">
+            <h1>初报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>执管单位</span>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_2')">上一步</button>
+                <button onclick="m101_getnext('m101_4')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_4">
+            <h1>初报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>当日后续航站</span>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_3')">上一步</button>
+                <button onclick="m101_getnext('m101_5')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_5">
+            <h1>初报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>通报SOC</span>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_4')">上一步</button>
+                <button onclick="m101_getnext('m101_6')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_6">
+            <h1>初报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>申请机场取证</span>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_5')">上一步</button>
+                <button onclick="m101_getnext('m101_7')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_7">
+            <h1>初报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请填写初报：
+            </p>
+            <div class="dep">
+                <textarea name="m101_1" form="m101" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m101_1',m101.m101_1.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_6')">上一步</button>
+                <button onclick="m101_getnext('m101_8')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_8">
+            <h1>续报-不影响航班/MEL/信息安全</h1>
+            <p>
+                请填写续报：
+            </p>
+            <div class="dep">
+                <textarea name="m101_2" form="m101" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m101_2',m101.m101_2.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_7')">上一步</button>
+                <button onclick="m101_getnext('m101_9')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m101_9">
+            <h1>结报－不影响航班/MEL/信息安全</h1>
+            <p>
+                请填写结报：
+            </p>
+            <div class="dep">
+                <textarea name="m101_3" form="m101" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m101_3',m101.m101_3.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m101_getnext('m101_8')">上一步</button>
+                <button onclick="m101_end()">结束</button>
+            </div>
+        </div>
+        <form id="m101"></form>
+
+
+
+
+        <!-- m011模式界面 -->
+        <div class="box" id="m011_1">
+            <h1>初报-影响航班正常性/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>厂值班</span>
+            </div>
+            <div id="audio_m011_1" class="btns">
+                <!-- <button onclick="m100_getnext(i)">上一步</button> -->
+                <button onclick="m011_getnext('m011_2')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_2">
+            <h1>初报-影响航班正常性/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>广州MCC</span>
+            </div>
+            <div id="audio_m011_2" class="btns">
+                <button onclick="m011_getnext('m011_1')">上一步</button>
+                <button onclick="m011_getnext('m011_3')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_3">
+            <h1>初报-影响航班正常性/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>上海GOC现场席位</span>
+            </div>
+            <div id="audio_m011_3" class="btns">
+                <button onclick="m011_getnext('m011_2')">上一步</button>
+                <button onclick="m011_getnext('m011_4')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_4">
+            <h1>初报-影响航班正常性/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <span class="tt"></span>
+            <div class="dep">
+                <span>执管单位</span>
+            </div>
+            <div id="audio_m011_4" class="btns">
+                <button onclick="m011_getnext('m011_3')">上一步</button>
+                <button onclick="m011_getnext('m011_5')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_5">
+            <h1>初报-影响航班正常性/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>通报SOC</span>
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_4')">上一步</button>
+                <button onclick="m011_getnext('m011_6')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_6">
+            <h1>初报-影响航班正常性/信息安全</h1>
+            <p>
+                请即时通知：
+            </p>
+            <div class="dep">
+                <span>申请机场取证</span>
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_5')">上一步</button>
+                <button onclick="m011_getnext('m011_7')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_7">
+            <h1>初报-影响航班正常性/信息安全</h1>
+            <p>
+                请填写初报：
+            </p>
+            <div class="dep">
+                <textarea name="m011_1" form="m011" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m011_1',m011.m011_1.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_6')">上一步</button>
+                <button onclick="m011_getnext('m011_8')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_8">
+            <h1>续报-影响航班正常性/信息安全</h1>
+            <p>
+                <!-- 请即时通知 -->
+            </p>
+            <div class="dep">
+                <span>是否按照重要故障决策审批</span>
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_7')">上一步</button>
+                <button onclick="m011_getnext('m011_9')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_9">
+            <h1>续报-影响航班正常性/信息安全</h1>
+            <p>
+                <!-- 请即时通知 -->
+            </p>
+            <div class="dep">
+                <span>延误超过两小时，通知厂长</span>
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_8')">上一步</button>
+                <button onclick="m011_getnext('m011_10')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_10">
+            <h1>续报-影响航班正常性/信息安全</h1>
+            <p>
+                <!-- 请即时通知 -->
+                <span>设置航班正常COBT时间：</span>
+            </p>
+            <div class="dep">
+                <input id="time2" type="text" name="datetime2" class="ui_timepicker" autocomplete="off">
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_9')">上一步</button>
+                <button onclick="m011_getnext('m011_11')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_11">
+            <h1>续报-影响航班正常性/信息安全</h1>
+            <p>
+                请填写续报：
+            </p>
+            <span></span>
+            <div class="dep">
+                <textarea name="m011_2" form="m011" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m011_2',m011.m011_2.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_10')">上一步</button>
+                <button onclick="m011_getnext('m011_12')">下一步</button>
+            </div>
+        </div>
+        <div class="box" id="m011_12">
+            <h1>结报-影响航班正常性/信息安全</h1>
+            <p>
+                请填写结报：
+            </p>
+            <span></span>
+            <div class="dep">
+                <textarea name="m011_3" form="m011" cols="30" rows="20" style="margin-top: 23px;"
+                    oninput="report('side_m011_3',m011.m011_3.value)"></textarea>
+            </div>
+            <div class="btns">
+                <button onclick="m011_getnext('m011_11')">上一步</button>
+                <button onclick="m011_end()">结束</button>
+            </div>
+        </div>
+        <form id="m011"></form>
+
+        <!-- mask -->
+        <div class="mask" id="mask"></div>
+        <!-- 页面 -->
+        <!--大盒子结尾-->
+    </div>
+
+    <!-- 侧边栏 -->
+    <div class="side" id="side">
+        <div>报告</div>
+        <div class="it" id="fms"></div>
+
+    </div>
+
+    <!-- 延误超过两个小时，警告弹窗 -->
+    <div class="yanwutanchuang">
+        <h3>延误已经超过两个小时，请通知厂领导！</h3>
+        <button class="close" onclick="Close_yanwutanchuang()">关闭</button>
+    </div>
+    <!-- 延误2小时遮罩层 -->
+    <div class="mask2">
+
+    </div>
+
+
+
+</body>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        /* 时间选择器初始化 */
+        $(".ui_timepicker").datetimepicker({
+            //showOn: "button",
+            //buttonImage: "./css/images/icon_calendar.gif",
+            //buttonImageOnly: true,
+            showSecond: true,
+            timeFormat: 'hh:mm:ss',
+            stepHour: 1,
+            stepMinute: 1,
+            stepSecond: 1
+        })
+        /* start启动按钮事件 */
+        $("#start").click(function () {
+            console.log('点击启动按钮');
+            var data = { 'first': false, 'second': false, 'third': false };
+            data.first = $('#first').is(":checked");
+            data.second = $('#second').is(":checked");
+            data.third = $('#third').is(":checked");
+            if (!data.first && !data.second && !data.third) {
+                //弹出警告，提醒选择模式
+                alert("请先选择模式！")
+                return
+            }
+
+            console.log(data)
+            var model = Number(data.first) * 100 + Number(data.second) * 10 + Number(data.third);
+            //console.log(data.third)
+            $("#main").css("display", "none");
+            switch (model) {
+
+                case 1:
+                    console.log("001模式")
+                    $.fn.model_001();
+                    break;
+                case 10:
+                    console.log("010模式");
+                    $.fn.model_010();
+                    break;
+                case 100:
+                    console.log("100模式")
+                    $.fn.model_100();
+                    break;
+                case 101:
+                    console.log("101模式")
+                    $.fn.model_101();
+                    break;
+                case 110:
+                    console.log("110模式")
+                    $.fn.model_111();
+                    break;
+                case 11:
+                    console.log("011模式");
+                    $.fn.model_011();
+                    break;
+                case 111:
+                    console.log("111模式")
+                    $.fn.model_111();
+                    break;
+            }
+
+        })
+        /* 001函数 */
+        $.fn.model_001 = function () {
+
+            $("#mask").css("display", "block");
+            $("#m001_1").css("display", "block");
+
+        }
+        /* 010函数 */
+        $.fn.model_010 = function () {
+            $("#mask").css("display", "block");
+            $("#m010_1").css("display", "block");
+            window.timer = setInterval(() => {
+                $.fn.coutDone();
+            }, 1000);
+            
+        }
+        /* 100函数 */
+        $.fn.model_100 = function () {
+            $("#mask").css("display", "block");
+            $("#m100_1").css("display", "block");
+        }
+        /* 101函数 */
+        $.fn.model_101 = function () {
+            $("#mask").css("display", "block");
+            $("#m101_1").css("display", "block");
+        }
+
+        /* 011函数 */
+        $.fn.model_011 = function () {
+            $("#mask").css("display", "block");
+            $("#m011_1").css("display", "block");
+            timer = setInterval(() => {
+                $.fn.coutDone();
+            }, 1000);
+
+
+        }
+        /* 111，110函数 */
+        $.fn.model_111 = function () {
+            alert("1.不影响航班/MEL 2.影响航班 不能同时选择，请重新选择！！！");
+        }
+
+        /* 倒计时函数*/
+        var maxtime = 5*60;//五分钟倒计时
+        $.fn.coutDone = function () {
+            var minutes, seconds;
+            if (maxtime >= 0) {
+                minutes = Math.floor(maxtime / 60);
+                seconds = Math.floor(maxtime % 60);
+                msg = "剩余时间：" + minutes + "分" + seconds + "秒";
+                $(".tt").text(msg);
+                --maxtime;
+
+            } else {
+                var audio = document.getElementById("audio");
+                clearInterval(timer);
+                audio.play();
+                var p = new Promise(function (resolve, reject) {
+                    audio.play();
+                    //console.log("第一步")
+                    resolve("122");
+                }).then(function (data) {
+                    //添加暂停警报按钮
+                    $("#audio_m010_1").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+                    $("#audio_m010_2").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+                    $("#audio_m010_3").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+                    $("#audio_m010_4").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+
+                    $("#audio_m011_1").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+                    $("#audio_m011_2").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+                    $("#audio_m011_3").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+                    $("#audio_m011_4").append("<button onclick='$.fn.AudioPause()'>停止警报</button>");
+                })
+
+
+            }
+        }
+
+        //暂停警报函数
+        $.fn.AudioPause = function(){
+            //console.log("点击暂停")
+            audio.pause();
+        }
+
+        //获取设置的COBT时间
+        $.fn.getsettime = function () {
+          var data = $("#flighttime").val();
+          //console.log("Time:",data)
+          return data
+        }
+
+        //延误2小时倒计时函数
+        $.fn.daojishi = function () {
+          //COBT时间
+          var setdate = new Date($.fn.getsettime());
+          var tt = setInterval(function () {
+            //
+
+            //当前时间
+            var mydate = new Date();
+            var clock = Math.floor((mydate - setdate) / 1000);
+            //flag标记是否小于0
+            var flag = false;
+            if (clock <= 0) flag = true;
+            clock = Math.abs(clock)
+            var hour = Math.floor(clock / 3600);//时
+            var minutes = Math.floor((clock % 3600) / 60); //分
+            var seconds = Math.floor((clock % 3600) % 60); //秒
+            console.log(clock, hour, ":", minutes, ":", seconds);
+            msg = "距离航班延误还剩：" + hour + "时" + minutes + "分" + seconds + "秒";
+            if (!flag) msg = "航班已经延误：" + hour + "时" + minutes + "分" + seconds + "秒";
+            $("#m010_9>span").text(msg);
+            $("#m010_10>span").text(msg);
+            if (!flag && hour == 2) {
+              //console.log("hour:",hour,"flag:",flag)
+              var adu = document.getElementById("audio");
+              adu.play();
+              
+              clearInterval(tt);
+              //-----
+              setInterval(function () {
+                //
+
+                //当前时间
+                var mydate = new Date();
+                var clock = Math.floor((mydate - setdate) / 1000);
+                //flag标记是否小于0
+                var flag = false;
+                if (clock <= 0) flag = true;
+                clock = Math.abs(clock)
+                var hour = Math.floor(clock / 3600);//时
+                var minutes = Math.floor((clock % 3600) / 60); //分
+                var seconds = Math.floor((clock % 3600) % 60); //秒
+                console.log(clock, hour, ":", minutes, ":", seconds);
+                msg = "距离航班延误还剩：" + hour + "时" + minutes + "分" + seconds + "秒";
+                if (!flag) msg = "航班已经延误：" + hour + "时" + minutes + "分" + seconds + "秒";
+                $("#m010_9>span").text(msg);
+                $("#m010_10>span").text(msg);
+
+                //
+              }, 1000)
+
+              //-----
+            }
+            //
+          }, 1000)
+
+        }
+
+        //延误两个小时弹窗关闭函数
+        $.fn.Close_yanwutanchuang = function(){
+            $(".yanwutanchuang").css("display","none");
+            $(".mask2").css("display","none");
+            audio.pause();
+
+        }
+
+    })
+
+
+</script>
+
+</html>
